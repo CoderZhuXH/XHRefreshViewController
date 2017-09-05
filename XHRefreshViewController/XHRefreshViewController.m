@@ -48,6 +48,18 @@ static NSInteger  pageCountDefault =  15;//每页默认个数
     
     [self setupRefreshHeaderAndFooter];
     
+     __weak typeof(self) weakSelf = self;
+    self.xhRequestSuccess = ^(NSArray *responseArray) {
+        
+        [weakSelf handleResponseArray:responseArray];
+        
+    };
+    
+    self.xhRequestFailure = ^(id error) {
+        
+        [weakSelf handleResponseError:error];
+    };
+    
 }
 -(void)setupRefreshTableView
 {
@@ -94,6 +106,7 @@ static NSInteger  pageCountDefault =  15;//每页默认个数
     
     _page = pageDefault;
     self.tableState = TableStateRefreshing;
+    [XHRefreshEmptyView removeOnView:_refreshTableView];
     [self sendRequestWithUrl:_requestUrl parameters:[self currentRequestParameters]];
 }
 -(void)loadMoreStart
@@ -102,8 +115,10 @@ static NSInteger  pageCountDefault =  15;//每页默认个数
     
     _page ++;
     self.tableState = TableStateLoading;
+    [XHRefreshEmptyView removeOnView:_refreshTableView];
     [self sendRequestWithUrl:_requestUrl parameters:[self currentRequestParameters]];
 }
+
 -(NSDictionary *)currentRequestParameters
 {
     NSMutableDictionary *dict = _requestParameters.mutableCopy;
@@ -112,63 +127,57 @@ static NSInteger  pageCountDefault =  15;//每页默认个数
     return dict;
 }
 #pragma mark - 以下方法教给子类来实现
-//-(UIView *)emptyView{
-//    
-//    
-//    
-//}
 -(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters{}
+-(void)handleArray:(NSArray *)array{}
 
--(void)setResponseArray:(NSArray *)responseArray
+
+#pragma mark - 私有方法
+//处理请求成功数组
+-(void)handleResponseArray:(NSArray *)responseArray
 {
-    _responseArray = responseArray;
     if(_tableState == TableStateRefreshing)//刷新
     {
         [self.dataArray removeAllObjects];
         //没有数据
         if(responseArray.count==0)
         {
-        
-        
-        
+            
+            
+            
         }
         else//有数据
         {
             [self handleArray:responseArray];
-        
+            
         }
     }
     else if (_tableState == TableStateLoading)//加载更多
     {
         if(responseArray.count<self.pageCount)//数据不满一页
         {
-        
-        
-        
+            
+            
+            
         }
-    
+        
         [self  handleArray:responseArray];
     }
     
     self.tableState = TableStateIdle;//设置为空闲状态
 }
--(void)handleRequestWithPage:(NSInteger)page pageCount:(NSInteger)pageCount
-{
+//处理失败情况
+-(void)handleResponseError:(id)error{
 
-
-
-
-
+    if(_dataArray.count==0)
+    {
+        [XHRefreshEmptyView showOnView:self.refreshTableView imgName:EmptyImage_default title:EmptyTitle_LoadError_default clickBlock:^{
+            
+            [self refreshStart];
+        }];
+    }
+    
+     self.tableState = TableStateIdle;//设置为空闲状态
 }
--(void)setRequestUrl:(NSString *)url parameters:(NSDictionary *)parameters responseArray:(NSArray *)responseArray
-{
-
-
-
-
-
-}
--(void)handleArray:(NSArray *)array{}
 
 - (void)setTableState:(TableState)state
 {

@@ -39,19 +39,22 @@ static NSString *const id_NewsCell = @"NewsCell";
 
 #pragma mark - 实现父类方法
 /**
-  发送数据请求
+ 在此方法内做数据请求
  */
--(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters
+-(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters;
 {
     [Network GET:url parameters:parameters success:^(NSDictionary * responseObject) {
         
         NSArray *array = responseObject[@"data"];//获取返回数组
-        self.responseArray = array;//赋值给responseArray
+        
+        self.xhRequestSuccess(array);//回调请求到的数组
         
     } failure:^(NSError *error) {
-
-        self.responseArray = nil;
+        
+        self.xhRequestFailure(error);//回调错误信息
+        
     }];
+
 }
 
 /**

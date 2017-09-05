@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "UIView+XHRefreshExtension.h"
 
+typedef void (^ XHRefreshViewControllerRequestSuccess)(NSArray * responseArray);
+typedef void (^ XHRefreshViewControllerRequestFailure)(id error);
+
 typedef NS_ENUM(NSInteger, TableState)
 {
     TableStateRefreshing,   //刷新
@@ -20,11 +23,11 @@ typedef NS_ENUM(NSInteger, TableState)
 @property (nonatomic, strong) UITableView *refreshTableView;
 @property (nonatomic, assign) UITableViewStyle tableViewStyle;
 @property (nonatomic, assign,readonly) TableState tableState;//tableView状态
-@property (nonatomic, strong) NSArray *responseArray;//服务器返回数组
 @property (nonatomic, strong) NSMutableArray *dataArray;//数据源数组
 @property (nonatomic, assign) BOOL hideHeaderRefresh;//YES:不需要下拉刷新,默认NO
 @property (nonatomic, assign) BOOL hideFooterRefresh;//YES:不需要上拉加载,默认NO
-
+@property (nonatomic, copy) XHRefreshViewControllerRequestSuccess xhRequestSuccess;
+@property (nonatomic, copy) XHRefreshViewControllerRequestFailure xhRequestFailure;
 #pragma mark - 以下方法交给子类来调用
 /**
  设置请求参数
