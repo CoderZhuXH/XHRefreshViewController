@@ -29,6 +29,8 @@
         self.imgName = imgName;
         self.title = title;
         [self setupUI];
+        
+        //self.backgroundColor = [UIColor yellowColor];
     }
     return self;
 }
@@ -36,15 +38,16 @@
 -(void)setupUI{
     
     self.userInteractionEnabled = YES;
-    CGFloat width = 60.0;
+    CGFloat width = 90.0;
     _imgView = [[UIImageView alloc] initWithFrame:CGRectMake((self.xh_width-width)/2.0, (self.xh_height-width)/2.0-20, width, width)];
-
+    _imgView.contentMode = UIViewContentModeScaleAspectFit;
     _imgView.image = [UIImage imageNamed:self.imgName];
+    //_imgView.backgroundColor = [UIColor redColor];
     [self addSubview:_imgView];
     
     _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(0, _imgView.frame.origin.y+_imgView.frame.size.height, self.bounds.size.width, 45)];
     _titleLab.textAlignment = NSTextAlignmentCenter;
-    _titleLab.textColor = [UIColor darkGrayColor];
+    _titleLab.textColor = [UIColor lightGrayColor];
     _titleLab.text = self.title;
     _titleLab.numberOfLines = 0;
     _titleLab.font = [UIFont systemFontOfSize:15];

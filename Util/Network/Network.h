@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NetworkError.h"
 
 typedef void (^ Success)(id responseObject);
-typedef void (^ Failure)(NSError *error);
+typedef void (^ Failure)(NetworkError *error);
 
 @interface Network : NSObject
 

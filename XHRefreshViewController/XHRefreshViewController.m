@@ -11,92 +11,56 @@
 #import "XHRefreshFooter.h"
 #import "XHRefreshEmptyView.h"
 
-static NSInteger  pageDefault = 1;//默认页码
-static NSInteger  pageCountDefault =  15;//每页默认个数
+
+static NSInteger  _firstPage = 1;//第一页默认页码
+static NSInteger  _pageCount =  15;//每页默认个数
 
 @interface XHRefreshViewController ()
 @property (nonatomic, assign) TableState tableState;//tableView状态
-@property (nonatomic, assign) NSInteger pageCount;//每页条数
 @property (nonatomic, copy) NSString *pageCountKey;//每页条数key
 @property (nonatomic, assign) NSInteger page;//页码
 @property (nonatomic, copy) NSString *pageKey;//页码key
 @property (nonatomic, copy) NSString *requestUrl;//请求url
 @property (nonatomic, strong) NSMutableDictionary *requestParameters;//请求参数
+@property (nonatomic, strong) UIView *tempEmptyOrErrorView;
 
 @end
 
 @implementation XHRefreshViewController
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
-        self.dataArray = [[NSMutableArray alloc] init];
-        self.requestParameters = [[NSMutableDictionary alloc] init];
-        self.tableViewStyle = UITableViewStylePlain;
-        
-    }
-    return self;
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    [self setupRefreshTableView];
+    [self.view addSubview:self.refreshTableView];
     
     [self setupRefreshHeaderAndFooter];
     
      __weak typeof(self) weakSelf = self;
-    self.xhRequestSuccess = ^(NSArray *responseArray) {
+    self.requestSuccess = ^(NSArray *responseArray,id object) {
         
-        [weakSelf handleResponseArray:responseArray];
+        [weakSelf handleResponseArray:responseArray object:object];
         
     };
     
-    self.xhRequestFailure = ^(id error) {
+    self.requestFailure = ^(id error) {
         
-        [weakSelf handleResponseError:error];
+        [weakSelf handleFailure];
     };
     
 }
--(void)setupRefreshTableView
-{
-    _refreshTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.xh_width,self.view.xh_height-64) style: self.tableViewStyle];
-    _refreshTableView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_refreshTableView];
 
-}
--(void)setupRefreshHeaderAndFooter
-{
-   __weak typeof(self) weakSelf = self;
-    if(!_hideHeaderRefresh)
-    {
-        _refreshTableView.mj_header = [XHRefreshHeader headerWithRefreshingBlock:^{
-            
-            [weakSelf refreshStart];
-        }];
-    }
-    if(!_hideFooterRefresh)
-    {
-        _refreshTableView.mj_footer = [XHRefreshFooter footerWithRefreshingBlock:^{
-            
-            [weakSelf loadMoreStart];
-        }];
-        
-    }
-}
-
--(void)setRequestUrl:(NSString *)url parameters:(NSDictionary *)parameters pageKey:(NSString *)pageKey page:(NSNumber *)page pageCountKey:(NSString *)pageCountKey pageCount:(NSNumber *)pageCount
+#pragma mark - 以下方法交给子类来调用
+-(void)setRequestUrl:(NSString *)url parameters:(NSDictionary *)parameters pageKey:(NSString *)pageKey firstPage:(NSNumber *)firstPage pageCountKey:(NSString *)pageCountKey pageCount:(NSNumber *)pageCount
 {
     _requestUrl = url;
-    [_requestParameters removeAllObjects];
-    [_requestParameters addEntriesFromDictionary:parameters];
+    [self.requestParameters removeAllObjects];
+    [self.requestParameters addEntriesFromDictionary:parameters];
     _pageKey = pageKey;
     _pageCountKey = pageCountKey;
-    if(page) pageDefault = page.integerValue;
-    if(pageCount) pageCountDefault = pageCount.integerValue;
+    if(firstPage) _firstPage = firstPage.integerValue;
+    if(pageCount) _pageCount = pageCount.integerValue;
     self.tableState = TableStateIdle;
     [self refreshStart];
 }
@@ -104,9 +68,9 @@ static NSInteger  pageCountDefault =  15;//每页默认个数
     
     if(!_requestUrl.length) return;
     
-    _page = pageDefault;
+    _page = _firstPage;
     self.tableState = TableStateRefreshing;
-    [XHRefreshEmptyView removeOnView:_refreshTableView];
+    //[self removeEmptyView];
     [self sendRequestWithUrl:_requestUrl parameters:[self currentRequestParameters]];
 }
 -(void)loadMoreStart
@@ -115,65 +79,121 @@ static NSInteger  pageCountDefault =  15;//每页默认个数
     
     _page ++;
     self.tableState = TableStateLoading;
-    [XHRefreshEmptyView removeOnView:_refreshTableView];
+    //[self removeEmptyView];
     [self sendRequestWithUrl:_requestUrl parameters:[self currentRequestParameters]];
+}
+
+#pragma mark - 以下方法交给子类来实现
+-(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters{}
+-(void)handleArray:(NSArray *)array object:(id)object{}
+-(UITableViewStyle)refreshTableViewStyle{
+    
+    return UITableViewStylePlain;
+}
+-(UIView *)emptyView
+{
+    CGFloat width = 180.0;
+    NSString *imgName = EmptyImage_default;
+    NSString *title =  EmptyTitle_default;
+    UIView *superView = self.refreshTableView;
+    XHRefreshEmptyView *emptyView = [[XHRefreshEmptyView alloc] initWithFrame:CGRectMake((superView.xh_width-width)/2.0, (superView.xh_height-width)/2.0, width, width) imgName:imgName title:title];
+    return emptyView;
+}
+-(UIView *)loadErrorView
+{
+    CGFloat width = 180.0;
+    NSString *imgName = EmptyImage_default;
+    NSString *title =  EmptyTitle_LoadError_default;
+    UIView *superView = self.refreshTableView;
+    XHRefreshEmptyView *loadErrorView = [[XHRefreshEmptyView alloc] initWithFrame:CGRectMake((superView.xh_width-width)/2.0, (superView.xh_height-width)/2.0, width, width) imgName:imgName title:title];
+    return loadErrorView;
+}
+#pragma mark - 私有方法
+/**
+ 初始化头部/尾部刷新
+ */
+-(void)setupRefreshHeaderAndFooter
+{
+    __weak typeof(self) weakSelf = self;
+    if(!_hideHeaderRefresh)
+    {
+        self.refreshTableView.mj_header = [XHRefreshHeader headerWithRefreshingBlock:^{
+            
+            [weakSelf refreshStart];
+        }];
+    }
+    if(!_hideFooterRefresh)
+    {
+        self.refreshTableView.mj_footer = [XHRefreshFooter footerWithRefreshingBlock:^{
+            
+            [weakSelf loadMoreStart];
+        }];
+        
+    }
 }
 
 -(NSDictionary *)currentRequestParameters
 {
-    NSMutableDictionary *dict = _requestParameters.mutableCopy;
+    NSMutableDictionary *dict = self.requestParameters.mutableCopy;
     if(_pageKey.length) [dict setObject:@(_page) forKey:_pageKey];
     if(_pageCountKey.length) [dict setObject:@(_pageCount) forKey:_pageCountKey];
     return dict;
 }
-#pragma mark - 以下方法教给子类来实现
--(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters{}
--(void)handleArray:(NSArray *)array{}
-
-
-#pragma mark - 私有方法
 //处理请求成功数组
--(void)handleResponseArray:(NSArray *)responseArray
+-(void)handleResponseArray:(NSArray *)responseArray object:(id)object
 {
+    //首先移除空/错误视图
+    [self removeEmptyOrErrorView];
+    
     if(_tableState == TableStateRefreshing)//刷新
     {
-        [self.dataArray removeAllObjects];
+        [self.dataSourceArray removeAllObjects];
         //没有数据
         if(responseArray.count==0)
         {
+            //[XHRefreshEmptyView showOnView:self.refreshTableView imgName:EmptyImage_default title:EmptyTitle_default clickBlock:nil];
             
             
-            
+            [self addEmptyView];//添加占位空视图
         }
         else//有数据
         {
-            [self handleArray:responseArray];
-            
+            if(responseArray.count<_pageCount)//数据不满一页
+            {
+                //已经加载完全部
+                self.refreshTableView.mj_footer.state = MJRefreshStateNoMoreData;
+            }
         }
+        
+        [self handleArray:responseArray object:object];//处理数据
     }
     else if (_tableState == TableStateLoading)//加载更多
     {
-        if(responseArray.count<self.pageCount)//数据不满一页
+        if(responseArray.count<_pageCount)//数据不满一页
         {
+            //已经加载完全部
+            self.refreshTableView.mj_footer.state = MJRefreshStateNoMoreData;
             
-            
-            
+            if(responseArray.count==0) return;
         }
         
-        [self  handleArray:responseArray];
+        [self handleArray:responseArray object:object];//处理数据
     }
     
     self.tableState = TableStateIdle;//设置为空闲状态
 }
 //处理失败情况
--(void)handleResponseError:(id)error{
+-(void)handleFailure{
 
-    if(_dataArray.count==0)
+    if(self.dataSourceArray.count==0)
     {
-        [XHRefreshEmptyView showOnView:self.refreshTableView imgName:EmptyImage_default title:EmptyTitle_LoadError_default clickBlock:^{
-            
-            [self refreshStart];
-        }];
+//        [XHRefreshEmptyView showOnView:self.refreshTableView imgName:EmptyImage_default title:EmptyTitle_LoadError_default clickBlock:^{
+//            
+//            [self refreshStart];
+//        }];
+        
+        [self addLoadErrorView];//添加空占位视图
+        
     }
     
      self.tableState = TableStateIdle;//设置为空闲状态
@@ -184,25 +204,75 @@ static NSInteger  pageCountDefault =  15;//每页默认个数
     _tableState = state;
     if (state == TableStateRefreshing) {
         
-        [_refreshTableView.mj_footer resetNoMoreData];//消除没有更多数据的状态
-        
-        if (_refreshTableView.mj_footer.isRefreshing) [_refreshTableView.mj_footer endRefreshing];
+        [self.refreshTableView.mj_footer resetNoMoreData];//消除没有更多数据的状态
+        self.refreshTableView.bounces = YES;
+//        self.refreshTableView.mj_header.hidden = NO;
+//        self.refreshTableView.mj_footer.hidden = NO;
+       //if (self.refreshTableView.mj_footer.isRefreshing) [self.refreshTableView.mj_footer endRefreshing];
     }
     else if (state == TableStateLoading) {
         
-        if (_refreshTableView.mj_header.isRefreshing) [_refreshTableView.mj_header endRefreshing];
+        //if (self.refreshTableView.mj_header.isRefreshing) [self.refreshTableView.mj_header endRefreshing];
     }
     else if (state == TableStateIdle) {
         
-        if(_refreshTableView.mj_header.isRefreshing) [_refreshTableView.mj_header endRefreshing];
-        
-        if(_refreshTableView.mj_footer.isRefreshing) [_refreshTableView.mj_footer endRefreshing];
+//        if(self.refreshTableView.mj_header.isRefreshing) [self.refreshTableView.mj_header endRefreshing];
+//        if(self.refreshTableView.mj_footer.isRefreshing) [self.refreshTableView.mj_footer endRefreshing];
     }
+    
+    if(self.refreshTableView.mj_header.isRefreshing) [self.refreshTableView.mj_header endRefreshing];
+    if(self.refreshTableView.mj_footer.isRefreshing) [self.refreshTableView.mj_footer endRefreshing];
 }
--(void)removeEmptyView
+#pragma mark - lazy
+-(NSMutableArray *)dataSourceArray
 {
-    //[XHRefreshEmptyView rem]
+    if(_dataSourceArray==nil)
+    {
+        _dataSourceArray = [[NSMutableArray alloc] init];
+    }
+    return _dataSourceArray;
 
+}
+-(NSMutableDictionary *)requestParameters
+{
+    if(_requestParameters==nil)
+    {
+        _requestParameters = [[NSMutableDictionary alloc] init];
+    }
+    
+    return _requestParameters;
+}
+-(UITableView *)refreshTableView
+{
+    if(_refreshTableView==nil)
+    {
+        _refreshTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.xh_width,self.view.xh_height-64) style:[self refreshTableViewStyle]];
+        _refreshTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    }
+    return _refreshTableView;
+}
+-(void)removeEmptyOrErrorView
+{
+    if(self.tempEmptyOrErrorView)
+    {
+        [self.tempEmptyOrErrorView removeFromSuperview];
+        self.tempEmptyOrErrorView = nil;
+    }
+    self.refreshTableView.bounces = YES;
+}
+-(void)addEmptyView
+{
+    [self removeEmptyOrErrorView];//移除旧的
+    self.tempEmptyOrErrorView = [self emptyView];
+    [self.refreshTableView addSubview:self.tempEmptyOrErrorView];
+    self.refreshTableView.bounces = NO;
+}
+-(void)addLoadErrorView
+{
+    [self removeEmptyOrErrorView];//移除旧的
+    self.tempEmptyOrErrorView = [self loadErrorView];
+    [self.refreshTableView addSubview:self.tempEmptyOrErrorView];
+    self.refreshTableView.bounces = NO;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

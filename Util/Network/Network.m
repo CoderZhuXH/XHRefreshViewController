@@ -37,13 +37,24 @@ static AFHTTPSessionManager *_manager;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        XHLog(@"%@",[self JSONStringWithDictionary:responseObject]);
-        if(success) success(responseObject);
+        NSInteger status = [responseObject[@"status"] integerValue];
+        if(status==200){
+            
+            if(success) success(responseObject);
+            
+        }else{
+            
+            NSString *message = responseObject[@"message"];
+            if(failure) failure([NetworkError errorWithResponseCode:status responseMsg:message]);
+        }
+        
+        XHLog(@"地址:\n%@\n 参数:\n%@\n 结果:\n%@",URLString,parameters,[self JSONStringWithDictionary:responseObject]);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
 
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        if(failure) failure(error);
+        
+        if(failure) failure([NetworkError errorWithServerError:error]);
         
     }];
 }
