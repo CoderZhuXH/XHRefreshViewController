@@ -206,22 +206,18 @@ static NSInteger  _pageCount =  15;//每页默认个数
         
         [self.refreshTableView.mj_footer resetNoMoreData];//消除没有更多数据的状态
         self.refreshTableView.bounces = YES;
-//        self.refreshTableView.mj_header.hidden = NO;
-//        self.refreshTableView.mj_footer.hidden = NO;
-       //if (self.refreshTableView.mj_footer.isRefreshing) [self.refreshTableView.mj_footer endRefreshing];
+
+       if (self.refreshTableView.mj_footer.isRefreshing) [self.refreshTableView.mj_footer endRefreshing];
     }
     else if (state == TableStateLoading) {
         
-        //if (self.refreshTableView.mj_header.isRefreshing) [self.refreshTableView.mj_header endRefreshing];
+        if (self.refreshTableView.mj_header.isRefreshing) [self.refreshTableView.mj_header endRefreshing];
     }
     else if (state == TableStateIdle) {
         
-//        if(self.refreshTableView.mj_header.isRefreshing) [self.refreshTableView.mj_header endRefreshing];
-//        if(self.refreshTableView.mj_footer.isRefreshing) [self.refreshTableView.mj_footer endRefreshing];
+        if(self.refreshTableView.mj_header.isRefreshing) [self.refreshTableView.mj_header endRefreshing];
+        if(self.refreshTableView.mj_footer.isRefreshing) [self.refreshTableView.mj_footer endRefreshing];
     }
-    
-    if(self.refreshTableView.mj_header.isRefreshing) [self.refreshTableView.mj_header endRefreshing];
-    if(self.refreshTableView.mj_footer.isRefreshing) [self.refreshTableView.mj_footer endRefreshing];
 }
 #pragma mark - lazy
 -(NSMutableArray *)dataSourceArray
