@@ -112,7 +112,7 @@
 {
     self.xh_y = xh_bottom - self.xh_height;
 }
-+(UIView *)viewMIN
++(UIView *)xh_viewMIN
 {
     return [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
 }

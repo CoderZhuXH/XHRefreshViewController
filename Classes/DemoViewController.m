@@ -27,7 +27,7 @@ static NSString *const id_NewsCell = @"NewsCell";
     //设置代理
     self.refreshTableView.delegate = self;
     self.refreshTableView.dataSource = self;
-    self.refreshTableView.tableFooterView = [UIView viewMIN];
+    self.refreshTableView.tableFooterView = [UIView xh_viewMIN];
     
     //注册cell
     [self.refreshTableView registerNib:[UINib nibWithNibName:id_NewsCell bundle:nil] forCellReuseIdentifier:id_NewsCell];

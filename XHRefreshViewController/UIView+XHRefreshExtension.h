@@ -18,5 +18,5 @@
 @property (nonatomic, assign) CGFloat xh_centerY;
 @property (nonatomic, assign) CGFloat xh_right;
 @property (nonatomic, assign) CGFloat xh_bottom;
-+(UIView *)viewMIN;
++(UIView *)xh_viewMIN;
 @end
