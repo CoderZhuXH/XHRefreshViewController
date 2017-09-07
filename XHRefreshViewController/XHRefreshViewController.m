@@ -232,7 +232,7 @@ static NSInteger  _pageCount =  15;//每页默认个数
 {
     if(_refreshTableView==nil)
     {
-        _refreshTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.xh_width,self.view.xh_height-64) style:[self refreshTableViewStyle]];
+        _refreshTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height-64) style:[self refreshTableViewStyle]];
         _refreshTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     }
     return _refreshTableView;
