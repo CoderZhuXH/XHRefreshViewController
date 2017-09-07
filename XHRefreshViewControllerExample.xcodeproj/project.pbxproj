@@ -85,7 +85,6 @@
 		603B24121F5D5375000F65B2 /* XHRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 603B24111F5D5375000F65B2 /* XHRefreshFooter.m */; };
 		603B24151F5D5396000F65B2 /* XHRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 603B24141F5D5396000F65B2 /* XHRefreshHeader.m */; };
 		603B24181F5D53B6000F65B2 /* XHRefreshEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 603B24171F5D53B6000F65B2 /* XHRefreshEmptyView.m */; };
-		603B241B1F5D552A000F65B2 /* XHRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 603B241A1F5D552A000F65B2 /* XHRefreshConst.m */; };
 		603B241E1F5D566A000F65B2 /* UIView+XHRefreshExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 603B241D1F5D566A000F65B2 /* UIView+XHRefreshExtension.m */; };
 /* End PBXBuildFile section */
 
@@ -247,8 +246,6 @@
 		603B24141F5D5396000F65B2 /* XHRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHRefreshHeader.m; sourceTree = "<group>"; };
 		603B24161F5D53B6000F65B2 /* XHRefreshEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHRefreshEmptyView.h; sourceTree = "<group>"; };
 		603B24171F5D53B6000F65B2 /* XHRefreshEmptyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHRefreshEmptyView.m; sourceTree = "<group>"; };
-		603B24191F5D552A000F65B2 /* XHRefreshConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHRefreshConst.h; sourceTree = "<group>"; };
-		603B241A1F5D552A000F65B2 /* XHRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHRefreshConst.m; sourceTree = "<group>"; };
 		603B241C1F5D566A000F65B2 /* UIView+XHRefreshExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+XHRefreshExtension.h"; sourceTree = "<group>"; };
 		603B241D1F5D566A000F65B2 /* UIView+XHRefreshExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XHRefreshExtension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -601,8 +598,6 @@
 				6000400B1F5E987C00A56F5F /* Source */,
 				603B24071F5D52D6000F65B2 /* XHRefreshViewController.h */,
 				603B24081F5D52D6000F65B2 /* XHRefreshViewController.m */,
-				603B24191F5D552A000F65B2 /* XHRefreshConst.h */,
-				603B241A1F5D552A000F65B2 /* XHRefreshConst.m */,
 				603B24161F5D53B6000F65B2 /* XHRefreshEmptyView.h */,
 				603B24171F5D53B6000F65B2 /* XHRefreshEmptyView.m */,
 				603B24131F5D5396000F65B2 /* XHRefreshHeader.h */,
@@ -701,7 +696,6 @@
 				60003FFE1F5E803E00A56F5F /* SDWebImageCompat.m in Sources */,
 				60003FFF1F5E803E00A56F5F /* SDWebImageDecoder.m in Sources */,
 				600040061F5E803E00A56F5F /* UIImage+MultiFormat.m in Sources */,
-				603B241B1F5D552A000F65B2 /* XHRefreshConst.m in Sources */,
 				60003FFA1F5E803E00A56F5F /* NSData+ImageContentType.m in Sources */,
 				60003F9C1F5E767B00A56F5F /* AFImageDownloader.m in Sources */,
 				603B24151F5D5396000F65B2 /* XHRefreshHeader.m in Sources */,

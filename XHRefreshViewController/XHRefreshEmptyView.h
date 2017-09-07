@@ -15,6 +15,8 @@
 
 @interface XHRefreshEmptyView : UIView
 
+@property (nonatomic, copy) void(^clickBlcok)();
+
 - (instancetype)initWithFrame:(CGRect)frame imgName:(NSString *)imgName title:(NSString *)title;
 
 +(void)showOnView:(UIView *)view imgName:(NSString *)imgName title:(NSString *)title clickBlock:(void(^)())clickBlock;

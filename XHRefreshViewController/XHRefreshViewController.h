@@ -64,13 +64,21 @@ typedef NS_ENUM(NSInteger, TableState)
 #pragma mark - 必须实现
 /**
  发送数据请求
+
+ @param url 数据请求url
+ @param parameters 数据请求参数
+ @param isRefresh YES:表示刷新,NO:加载更多
  */
--(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters;
+-(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters isRefresh:(BOOL)isRefresh;
 
 /**
  处理数据
+
+ @param array 数据数组
+ @param object 附带参数
+ @param isRefresh YES:表示刷新,NO:加载更多
  */
--(void)handleArray:(NSArray *)array object:(id)object;
+-(void)handleArray:(NSArray *)array object:(id)object isRefresh:(BOOL)isRefresh;
 
 #pragma mark - 可选
 /**
@@ -85,5 +93,5 @@ typedef NS_ENUM(NSInteger, TableState)
 /**
  加载失败时占位视图(frame:相对于refreshTableView)-不实现此方法将使用默认占位视图
  */
--(UIView *)loadErrorView;
+-(UIView *)errorView;
 @end

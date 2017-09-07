@@ -35,11 +35,20 @@ static NSString *const id_NewsCell = @"NewsCell";
     //设置代理
     self.refreshTableView.delegate = self;
     self.refreshTableView.dataSource = self;
+    self.refreshTableView.tableFooterView = [UIView viewMIN];
     
     //注册cell
     [self.refreshTableView registerNib:[UINib nibWithNibName:id_NewsCell bundle:nil] forCellReuseIdentifier:id_NewsCell];
     
-    //设置数据请求参数
+    
+    //设置请求参数
+    //
+    //@param url 请求地址
+    //@param parameters 请求参数
+    //@param pageKey 传给服务器页码key
+    //@param firstPage 第一页的页码
+    //@param pageCountKey 传给服务器每页数据条数key(没有传nil)
+    //@param pageCount 每页数据条数(没有传nil)
     [self setRequestUrl:@"http://www.qinto.com/wap/index.php?ctl=article_cate&act=api_app_getarticle_cate" parameters:nil pageKey:@"p" firstPage:@(76) pageCountKey:@"num" pageCount:@(15)];//77页开始没数据
     
 }
@@ -48,7 +57,7 @@ static NSString *const id_NewsCell = @"NewsCell";
 /**
  在此方法内做数据请求
  */
--(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters;{
+-(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters isRefresh:(BOOL)isRefresh{
     
     [Network GET:url parameters:parameters success:^(NSDictionary * responseObject) {
         
@@ -65,10 +74,12 @@ static NSString *const id_NewsCell = @"NewsCell";
 /**
  处理数据
  */
--(void)handleArray:(NSArray *)array object:(id)object{
+-(void)handleArray:(NSArray *)array object:(id)object isRefresh:(BOOL)isRefresh{
+    
+    if(isRefresh) [self.dataSourceArray removeAllObjects];//如果是刷新的话,清空数据源数组
     //转模型数组
     NSArray *modelArray = [NewsModel mj_objectArrayWithKeyValuesArray:array];
-    //直接添加到数据源数据,不用管是刷新,还是加载更多,内部已处理好
+    //添加到数据源数组
     [self.dataSourceArray addObjectsFromArray:modelArray];
     //刷新视图
     [self.refreshTableView reloadData];
