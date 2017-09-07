@@ -1,5 +1,5 @@
 //
-//  NewsViewController.h
+//  DemoViewController.h
 //  XHRefreshViewControllerExample
 //
 //  Created by zhuxiaohui on 2017/9/5.
@@ -8,6 +8,6 @@
 
 #import "XHRefreshViewController.h"
 
-@interface NewsViewController : XHRefreshViewController
+@interface DemoViewController : XHRefreshViewController
 
 @end

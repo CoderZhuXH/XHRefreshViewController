@@ -55,7 +55,7 @@ static AFHTTPSessionManager *_manager;
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
         if(failure) failure([NetworkError errorWithServerError:error]);
-        
+        XHLog(@"error:%@",error);
     }];
 }
 

@@ -35,7 +35,7 @@
 		60003FAE1F5E767B00A56F5F /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 60003F651F5E767B00A56F5F /* NSString+MJExtension.m */; };
 		60003FCB1F5E784800A56F5F /* NewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 60003FC91F5E784800A56F5F /* NewsCell.m */; };
 		60003FCC1F5E784900A56F5F /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60003FCA1F5E784800A56F5F /* NewsCell.xib */; };
-		60003FD21F5E789A00A56F5F /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60003FD01F5E789A00A56F5F /* NewsViewController.m */; };
+		60003FD21F5E789A00A56F5F /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60003FD01F5E789A00A56F5F /* DemoViewController.m */; };
 		60003FD51F5E7DB900A56F5F /* NewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60003FD41F5E7DB900A56F5F /* NewsModel.m */; };
 		60003FFA1F5E803E00A56F5F /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 60003FD81F5E803D00A56F5F /* NSData+ImageContentType.m */; };
 		60003FFB1F5E803E00A56F5F /* NSImage+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 60003FDA1F5E803D00A56F5F /* NSImage+WebCache.m */; };
@@ -148,8 +148,8 @@
 		60003FC81F5E784800A56F5F /* NewsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsCell.h; sourceTree = "<group>"; };
 		60003FC91F5E784800A56F5F /* NewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsCell.m; sourceTree = "<group>"; };
 		60003FCA1F5E784800A56F5F /* NewsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
-		60003FD01F5E789A00A56F5F /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
-		60003FD11F5E789A00A56F5F /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
+		60003FD01F5E789A00A56F5F /* DemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoViewController.m; sourceTree = "<group>"; };
+		60003FD11F5E789A00A56F5F /* DemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoViewController.h; sourceTree = "<group>"; };
 		60003FD31F5E7DB900A56F5F /* NewsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsModel.h; sourceTree = "<group>"; };
 		60003FD41F5E7DB900A56F5F /* NewsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsModel.m; sourceTree = "<group>"; };
 		60003FD71F5E803D00A56F5F /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -264,8 +264,8 @@
 		60003F251F5E762700A56F5F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				60003FD11F5E789A00A56F5F /* NewsViewController.h */,
-				60003FD01F5E789A00A56F5F /* NewsViewController.m */,
+				60003FD11F5E789A00A56F5F /* DemoViewController.h */,
+				60003FD01F5E789A00A56F5F /* DemoViewController.m */,
 				60003FC31F5E769500A56F5F /* View */,
 				60003FC41F5E769500A56F5F /* Model */,
 			);
@@ -719,7 +719,7 @@
 				60003F9D1F5E767B00A56F5F /* AFNetworkActivityIndicatorManager.m in Sources */,
 				6000405F1F5FEC1000A56F5F /* UIScrollView+MJRefresh.m in Sources */,
 				60003FA91F5E767B00A56F5F /* MJPropertyType.m in Sources */,
-				60003FD21F5E789A00A56F5F /* NewsViewController.m in Sources */,
+				60003FD21F5E789A00A56F5F /* DemoViewController.m in Sources */,
 				60003FFB1F5E803E00A56F5F /* NSImage+WebCache.m in Sources */,
 				6000405E1F5FEC1000A56F5F /* UIScrollView+MJExtension.m in Sources */,
 				60003F9B1F5E767B00A56F5F /* AFAutoPurgingImageCache.m in Sources */,

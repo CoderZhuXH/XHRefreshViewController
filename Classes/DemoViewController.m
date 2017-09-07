@@ -1,23 +1,23 @@
 //
-//  NewsViewController.m
+//  DemoViewController.m
 //  XHRefreshViewControllerExample
 //
 //  Created by zhuxiaohui on 2017/9/5.
 //  Copyright © 2017年 FORWARD. All rights reserved.
 //
 
-#import "NewsViewController.h"
+#import "DemoViewController.h"
 #import "Network.h"
 #import "NewsCell.h"
 #import "MJExtension.h"
 
 static NSString *const id_NewsCell = @"NewsCell";
 
-@interface NewsViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface DemoViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
 
-@implementation NewsViewController
+@implementation DemoViewController
 
 - (instancetype)init
 {
@@ -49,7 +49,7 @@ static NSString *const id_NewsCell = @"NewsCell";
     //@param firstPage 第一页的页码
     //@param pageCountKey 传给服务器每页数据条数key(没有传nil)
     //@param pageCount 每页数据条数(没有传nil)
-    [self setRequestUrl:@"http://www.qinto.com/wap/index.php?ctl=article_cate&act=api_app_getarticle_cate" parameters:nil pageKey:@"p" firstPage:@(76) pageCountKey:@"num" pageCount:@(15)];//77页开始没数据
+    [self setRequestUrl:@"http://www.qinto.com/wap/index.php?ctl=article_cate&act=api_app_getarticle_cate" parameters:nil pageKey:@"p" firstPage:@(1) pageCountKey:@"num" pageCount:@(15)];//77页开始没数据
     
 }
 
