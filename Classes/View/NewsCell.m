@@ -27,7 +27,7 @@
 -(void)setModel:(NewsModel *)model
 {
     _model = model;
-    //[_imgView sd_setImageWithURL:[NSURL URLWithString:model.icon]];
+    [_imgView sd_setImageWithURL:[NSURL URLWithString:model.icon]];
     _titleLab.text = model.title;
     _cateLab.text = model.cate_name;
     _timeLab.text = model.update_time;
