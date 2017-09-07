@@ -1,1 +1,1 @@
-# XHRefreshViewControllerExample
+# XHRefreshViewController

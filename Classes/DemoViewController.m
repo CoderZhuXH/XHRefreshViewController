@@ -19,14 +19,6 @@ static NSString *const id_NewsCell = @"NewsCell";
 
 @implementation DemoViewController
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
