@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, TableState)
  @param parameters 数据请求参数
  @param isRefresh YES:表示刷新,NO:加载更多
  */
--(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters isRefresh:(BOOL)isRefresh;
+-(void)handleRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters isRefresh:(BOOL)isRefresh;
 
 /**
  处理数据

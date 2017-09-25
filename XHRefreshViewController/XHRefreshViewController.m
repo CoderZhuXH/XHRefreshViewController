@@ -71,7 +71,7 @@ static NSInteger  _pageCount =  15;//每页默认个数
     _page = _firstPage;
     self.tableState = TableStateRefreshing;
     [self removeEmptyOrErrorView];//移除占位视图
-    [self sendRequestWithUrl:_requestUrl parameters:[self currentRequestParameters] isRefresh:YES];
+    [self handleRequestWithUrl:_requestUrl parameters:[self currentRequestParameters] isRefresh:YES];
 }
 -(void)loadMoreStart
 {
@@ -80,11 +80,11 @@ static NSInteger  _pageCount =  15;//每页默认个数
     _page ++;
     self.tableState = TableStateLoading;
     [self removeEmptyOrErrorView];//移除占位视图
-    [self sendRequestWithUrl:_requestUrl parameters:[self currentRequestParameters] isRefresh:NO];
+    [self handleRequestWithUrl:_requestUrl parameters:[self currentRequestParameters] isRefresh:NO];
 }
 
 #pragma mark - 以下方法交给子类来实现
--(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters isRefresh:(BOOL)isRefresh{}
+-(void)handleRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters isRefresh:(BOOL)isRefresh{}
 -(void)handleArray:(NSArray *)array object:(id)object isRefresh:(BOOL)isRefresh{}
 -(UITableViewStyle)refreshTableViewStyle{
     

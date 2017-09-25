@@ -28,7 +28,7 @@ static NSString *const id_NewsCell = @"NewsCell";
     self.refreshTableView.delegate = self;
     self.refreshTableView.dataSource = self;
     self.refreshTableView.tableFooterView = [UIView xh_viewMIN];
-    
+
     //注册cell
     [self.refreshTableView registerNib:[UINib nibWithNibName:id_NewsCell bundle:nil] forCellReuseIdentifier:id_NewsCell];
     
@@ -49,7 +49,7 @@ static NSString *const id_NewsCell = @"NewsCell";
 /**
  在此方法内做数据请求
  */
--(void)sendRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters isRefresh:(BOOL)isRefresh{
+-(void)handleRequestWithUrl:(NSString *)url parameters:(NSDictionary *)parameters isRefresh:(BOOL)isRefresh{
     
     [Network GET:url parameters:parameters success:^(NSDictionary * responseObject) {
         
